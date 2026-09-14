@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Kit — small tools that just work</title>
+<meta name="description" content="A small toolbox of free browser tools: word counter, QR code generator, password generator, and case converter. No sign-up, nothing installed.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      The Kit
+    </a>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Tools</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-eyebrow-line"><span class="dot" aria-hidden="true"></span> no sign-up, nothing installed</div>
+      <h1>A small toolbox of things that just work.</h1>
+      <p class="lede">Type something on the right and watch it count itself. Every tool here runs straight in your browser — nothing you type ever leaves your device.</p>
+    </div>
+    <div class="demo-panel">
+      <label for="hero-demo">try it — type anything</label>
+      <textarea id="hero-demo" class="field" placeholder="Paste or type a sentence here..."></textarea>
+      <div class="demo-stats">
+        <div class="demo-stat"><span class="n" id="hero-words">0</span><span class="l">words</span></div>
+        <div class="demo-stat"><span class="n" id="hero-chars">0</span><span class="l">characters</span></div>
+        <div class="demo-stat"><span class="n" id="hero-sentences">0</span><span class="l">sentences</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Pick a tool</h2>
+    <p class="lede">Four to start. More get added to the board over time.</p>
+
+    <div class="tool-grid">
+      <a href="tools/word-counter.html" class="tool-slot">
+        <span class="tag">text</span>
+        <h3>Word Counter</h3>
+        <p>Words, characters, sentences and reading time, counted live.</p>
+      </a>
+      <a href="tools/qr-generator.html" class="tool-slot">
+        <span class="tag">image</span>
+        <h3>QR Code Generator</h3>
+        <p>Turn any link or text into a downloadable QR code.</p>
+      </a>
+      <a href="tools/password-generator.html" class="tool-slot">
+        <span class="tag">security</span>
+        <h3>Password Generator</h3>
+        <p>Strong random passwords with your own length and rules.</p>
+      </a>
+      <a href="tools/case-converter.html" class="tool-slot">
+        <span class="tag">text</span>
+        <h3>Case Converter</h3>
+        <p>Flip text between UPPER, lower, Title, and Sentence case.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="foot-note">&copy; <span id="year"></span> The Kit</span>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const demo = document.getElementById('hero-demo');
+  const wEl = document.getElementById('hero-words');
+  const cEl = document.getElementById('hero-chars');
+  const sEl = document.getElementById('hero-sentences');
+
+  function updateDemo() {
+    const text = demo.value;
+    const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    const chars = text.length;
+    const sentences = text.trim() === '' ? 0 : (text.match(/[.!?]+(?=\s|$)/g) || []).length;
+    wEl.textContent = words;
+    cEl.textContent = chars;
+    sEl.textContent = sentences;
+  }
+  demo.addEventListener('input', updateDemo);
+</script>
+
+</body>
+</html>

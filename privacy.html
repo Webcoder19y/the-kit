@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — The Kit</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      The Kit
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Tools</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="static-page wrap">
+  <h1>Privacy Policy</h1>
+  <p class="lede">Last updated: <span id="today"></span></p>
+
+  <h2>What this site collects</h2>
+  <p>The tools on this site (word counter, QR code generator, password generator, case converter) run entirely in your browser. Text you type or paste into them is never sent to a server and is not stored by us in any form.</p>
+
+  <h2>Analytics</h2>
+  <p>Like most websites, this site may use an analytics service (such as Google Analytics) to understand how many people visit and which pages are used. This collects general, non-identifying information such as browser type, approximate location (country/city level), and pages visited. It does not collect the content you type into any tool.</p>
+
+  <h2>Advertising</h2>
+  <p>This site may show ads served by third-party advertising networks, such as Google AdSense. These networks may use cookies or similar technology to show relevant ads based on your visit to this and other sites. You can control ad personalization through your browser or Google's Ads Settings.</p>
+
+  <h2>Cookies</h2>
+  <p>Third-party services used on this site (analytics, advertising) may set cookies in your browser. You can disable cookies through your browser settings at any time.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy can be sent through the <a href="contact.html">contact page</a>.</p>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="foot-note">&copy; <span id="year"></span> The Kit</span>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('today').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+</script>
+</body>
+</html>

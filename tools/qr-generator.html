@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator — The Kit</title>
+<meta name="description" content="Free QR code generator. Turn any link or text into a downloadable QR code, right in your browser.">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      The Kit
+    </a>
+    <nav class="main-nav">
+      <a href="../index.html">Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="tool-header">
+  <div class="wrap">
+    <a href="../index.html" class="breadcrumb">&larr; all tools</a>
+    <h1>QR Code Generator</h1>
+    <p class="lede">Type a link or any text, and a QR code builds itself below. Download it as an image when you're happy with it.</p>
+  </div>
+</div>
+
+<div class="tool-body">
+  <div class="wrap">
+
+    <div class="panel">
+      <label for="qr-text">link or text to encode</label>
+      <input type="text" id="qr-text" class="field" placeholder="https://example.com or any text" value="https://example.com">
+
+      <div class="field-row">
+        <div>
+          <label for="qr-size">size</label>
+          <select id="qr-size" class="field">
+            <option value="200">Small — 200px</option>
+            <option value="300" selected>Medium — 300px</option>
+            <option value="400">Large — 400px</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="qr-canvas-wrap">
+        <canvas id="qr-canvas"></canvas>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="download-btn">Download PNG</button>
+      </div>
+    </div>
+
+    <!-- Ad slot: place an AdSense in-article unit here once approved -->
+    <div class="ad-slot">ad slot</div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="foot-note">&copy; <span id="year"></span> The Kit</span>
+    <nav>
+      <a href="../about.html">About</a>
+      <a href="../privacy.html">Privacy</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const textInput = document.getElementById('qr-text');
+const sizeSelect = document.getElementById('qr-size');
+const wrap = document.getElementById('qr-canvas-wrap');
+const downloadBtn = document.getElementById('download-btn');
+
+let qr = null;
+
+function render() {
+  wrap.innerHTML = '';
+  const size = parseInt(sizeSelect.value, 10);
+  const value = textInput.value.trim() === '' ? ' ' : textInput.value;
+
+  qr = new QRCode(wrap, {
+    text: value,
+    width: size,
+    height: size,
+    colorDark: '#1E2124',
+    colorLight: '#F5F6F0',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+}
+
+textInput.addEventListener('input', render);
+sizeSelect.addEventListener('change', render);
+
+downloadBtn.addEventListener('click', () => {
+  const canvas = wrap.querySelector('canvas');
+  const img = wrap.querySelector('img');
+  const source = canvas || img;
+  if (!source) return;
+
+  const link = document.createElement('a');
+  link.download = 'qr-code.png';
+  link.href = canvas ? canvas.toDataURL('image/png') : source.src;
+  link.click();
+});
+
+render();
+</script>
+
+</body>
+</html>

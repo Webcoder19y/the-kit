@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Counter — The Kit</title>
+<meta name="description" content="Free word counter. Count words, characters, sentences, and estimated reading time as you type.">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      The Kit
+    </a>
+    <nav class="main-nav">
+      <a href="../index.html">Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="tool-header">
+  <div class="wrap">
+    <a href="../index.html" class="breadcrumb">&larr; all tools</a>
+    <h1>Word Counter</h1>
+    <p class="lede">Paste or type text below. Counts update as you go — nothing is sent anywhere.</p>
+  </div>
+</div>
+
+<div class="tool-body">
+  <div class="wrap">
+
+    <div class="panel">
+      <label for="input">your text</label>
+      <textarea id="input" class="field" placeholder="Start typing or paste your text here..."></textarea>
+
+      <div class="stat-strip">
+        <div><span class="n" id="words">0</span><span class="l">words</span></div>
+        <div><span class="n" id="chars">0</span><span class="l">characters</span></div>
+        <div><span class="n" id="chars-nospace">0</span><span class="l">chars (no spaces)</span></div>
+        <div><span class="n" id="sentences">0</span><span class="l">sentences</span></div>
+        <div><span class="n" id="paragraphs">0</span><span class="l">paragraphs</span></div>
+        <div><span class="n" id="readtime">0s</span><span class="l">reading time</span></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="clear-btn">Clear</button>
+        <button class="btn btn-ghost" id="copy-btn">Copy text</button>
+      </div>
+    </div>
+
+    <!-- Ad slot: place an AdSense in-article unit here once approved -->
+    <div class="ad-slot">ad slot</div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="foot-note">&copy; <span id="year"></span> The Kit</span>
+    <nav>
+      <a href="../about.html">About</a>
+      <a href="../privacy.html">Privacy</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const input = document.getElementById('input');
+const wordsEl = document.getElementById('words');
+const charsEl = document.getElementById('chars');
+const charsNoSpaceEl = document.getElementById('chars-nospace');
+const sentencesEl = document.getElementById('sentences');
+const paragraphsEl = document.getElementById('paragraphs');
+const readtimeEl = document.getElementById('readtime');
+
+function update() {
+  const text = input.value;
+  const trimmed = text.trim();
+
+  const words = trimmed === '' ? 0 : trimmed.split(/\s+/).length;
+  const chars = text.length;
+  const charsNoSpace = text.replace(/\s/g, '').length;
+  const sentences = trimmed === '' ? 0 : (trimmed.match(/[.!?]+(?=\s|$)/g) || []).length;
+  const paragraphs = trimmed === '' ? 0 : trimmed.split(/\n+/).filter(p => p.trim() !== '').length;
+
+  const wordsPerMinute = 200;
+  const totalSeconds = Math.round((words / wordsPerMinute) * 60);
+  let readTime;
+  if (totalSeconds < 60) {
+    readTime = totalSeconds + 's';
+  } else {
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
+    readTime = mins + 'm ' + secs + 's';
+  }
+
+  wordsEl.textContent = words;
+  charsEl.textContent = chars;
+  charsNoSpaceEl.textContent = charsNoSpace;
+  sentencesEl.textContent = sentences;
+  paragraphsEl.textContent = paragraphs;
+  readtimeEl.textContent = words === 0 ? '0s' : readTime;
+}
+
+input.addEventListener('input', update);
+
+document.getElementById('clear-btn').addEventListener('click', () => {
+  input.value = '';
+  update();
+  input.focus();
+});
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(input.value);
+  const btn = document.getElementById('copy-btn');
+  const original = btn.textContent;
+  btn.textContent = 'Copied!';
+  setTimeout(() => { btn.textContent = original; }, 1500);
+});
+</script>
+
+</body>
+</html>

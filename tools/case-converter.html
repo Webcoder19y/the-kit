@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Converter — The Kit</title>
+<meta name="description" content="Free text case converter. Flip text between UPPERCASE, lowercase, Title Case, Sentence case, and more, right in your browser.">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      The Kit
+    </a>
+    <nav class="main-nav">
+      <a href="../index.html">Tools</a>
+      <a href="../about.html">About</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="tool-header">
+  <div class="wrap">
+    <a href="../index.html" class="breadcrumb">&larr; all tools</a>
+    <h1>Case Converter</h1>
+    <p class="lede">Type your text, then pick a case. The result appears below, ready to copy.</p>
+  </div>
+</div>
+
+<div class="tool-body">
+  <div class="wrap">
+
+    <div class="panel">
+      <label for="input">your text</label>
+      <textarea id="input" class="field" placeholder="Type or paste your text here...">The quick brown fox jumps over the lazy dog.</textarea>
+
+      <div class="btn-row">
+        <button class="btn" data-case="upper">UPPERCASE</button>
+        <button class="btn" data-case="lower">lowercase</button>
+        <button class="btn" data-case="title">Title Case</button>
+        <button class="btn" data-case="sentence">Sentence case</button>
+        <button class="btn" data-case="alternating">aLtErNaTiNg cAsE</button>
+      </div>
+
+      <label for="output" style="margin-top:20px;">result</label>
+      <div class="output-box" id="output" style="font-family: var(--font-body);">The quick brown fox jumps over the lazy dog.</div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="copy-btn">Copy result</button>
+      </div>
+    </div>
+
+    <!-- Ad slot: place an AdSense in-article unit here once approved -->
+    <div class="ad-slot">ad slot</div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="foot-note">&copy; <span id="year"></span> The Kit</span>
+    <nav>
+      <a href="../about.html">About</a>
+      <a href="../privacy.html">Privacy</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+let activeCase = null;
+
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+}
+
+function toSentenceCase(str) {
+  const lower = str.toLowerCase();
+  return lower.replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+}
+
+function toAlternating(str) {
+  return str.split('').map((c, i) => i % 2 === 0 ? c.toLowerCase() : c.toUpperCase()).join('');
+}
+
+function convert(type) {
+  const text = input.value;
+  let result = text;
+  switch (type) {
+    case 'upper': result = text.toUpperCase(); break;
+    case 'lower': result = text.toLowerCase(); break;
+    case 'title': result = toTitleCase(text); break;
+    case 'sentence': result = toSentenceCase(text); break;
+    case 'alternating': result = toAlternating(text); break;
+  }
+  output.textContent = result;
+}
+
+document.querySelectorAll('[data-case]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeCase = btn.dataset.case;
+    convert(activeCase);
+  });
+});
+
+input.addEventListener('input', () => {
+  if (activeCase) convert(activeCase);
+  else output.textContent = input.value;
+});
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(output.textContent);
+  const btn = document.getElementById('copy-btn');
+  const original = btn.textContent;
+  btn.textContent = 'Copied!';
+  setTimeout(() => { btn.textContent = original; }, 1500);
+});
+</script>
+
+</body>
+</html>
